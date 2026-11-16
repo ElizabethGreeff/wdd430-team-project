@@ -92,7 +92,11 @@ erDiagram
 
 ## 5. Design system
 
-> **Owner: Elizabeth.** Colour palette, typography, layout and spacing conventions, and shared UI approach. The team will review her proposal and suggest edits. *(Section to be completed by Elizabeth.)*
+> **Owner: Elizabeth.** ✅ **Agreed as final.** The team has adopted Elizabeth's design document (shared in the Teams channel) as our design system: colour palette, typography, layout and spacing, and component styles.
+
+- **Typography:** Fraunces for headings, Inter for body text.
+- **Source of truth:** Elizabeth's design document. She will add the design tokens to `RentLog/app/globals.css` (issue #5) and can expand this section with the details.
+- Everyone builds to these tokens rather than choosing their own colours, fonts or spacing.
 
 ## 6. Proposed issues and ownership 💡
 

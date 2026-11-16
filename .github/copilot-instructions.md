@@ -5,7 +5,7 @@ RentLog helps renters document apartment condition (move-in and move-out reports
 ## Tech stack
 - Next.js App Router, with the app in `RentLog/`. TypeScript in **strict mode**, Tailwind CSS.
 - Database: **MongoDB** (proposed: MongoDB Atlas with **Mongoose**). Use one cached connection exported from `lib/db.ts`; never open a new connection per request.
-- Auth: *to be decided by the team (Auth.js or Clerk).* Update this section once chosen.
+- Auth: *to be decided by the team (Auth.js or Clerk).* 
 - Photos and receipts: store files outside MongoDB (proposed: Vercel Blob) and keep only their URLs in documents.
 
 ## Data model
