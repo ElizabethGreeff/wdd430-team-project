@@ -2,7 +2,7 @@
 
 **Team 12:** Elizabeth Greeff, Thubelihle Dlamini, Mackison Jean Pierre, Britney Maulana
 **Week 03 leader:** Thubelihle Dlamini · **Week 04 leader:** Elizabeth Greeff
-**Status:** Draft for team review. Items marked **✅ Agreed** were decided in the Week 03 meeting; items marked **💡 Proposed** are suggestions awaiting the team's 👍 or edits in Teams.
+**Status:** Draft for team review. Items marked **Agreed** were decided in the Week 03 meeting; items marked **Proposed** are suggestions awaiting the team's approval or edits in Teams.
 
 This document complements [`spec.md`](../spec.md) and feeds [`.github/copilot-instructions.md`](../.github/copilot-instructions.md). Each owner is welcome to edit their section on this branch.
 
@@ -12,31 +12,31 @@ This document complements [`spec.md`](../spec.md) and feeds [`.github/copilot-in
 
 | Area | Decision | Status |
 | --- | --- | --- |
-| Framework | Next.js App Router, TypeScript (strict), Tailwind CSS. The app lives in `RentLog/`. | ✅ Agreed (course requirement) |
-| Database | **MongoDB** | ✅ Agreed |
-| Hosting and ODM | MongoDB Atlas free tier with **Mongoose** for schemas | 💡 Proposed |
-| Auth | **Auth.js** (our own User model, admin role, but we build login, signup and password reset) **or Clerk** (ready-made screens and password reset, roles in user metadata) | 🗳️ Team vote open |
-| Photo and receipt files | Store the files in Vercel Blob; MongoDB keeps only the URLs | 💡 Proposed |
-| Deployment | Vercel | ✅ Agreed (course requirement) |
+| Framework | Next.js App Router, TypeScript (strict), Tailwind CSS. The app lives in `RentLog/`. | Agreed (course requirement) |
+| Database | **MongoDB** | Agreed |
+| Hosting and ODM | MongoDB Atlas free tier with **Mongoose** for schemas | Proposed |
+| Auth | **Auth.js** (our own User model, admin role, but we build login, signup and password reset) **or Clerk** (ready-made screens and password reset, roles in user metadata) | Team vote open |
+| Photo and receipt files | Store the files in Vercel Blob; MongoDB keeps only the URLs | Proposed |
+| Deployment | Vercel | Agreed (course requirement) |
 
 ## 2. MVP routes
 
 | Route | Purpose | Target week | Status |
 | --- | --- | --- | --- |
-| `/` | Landing page | Week 04 | 💡 |
-| `/login`, `/signup` | Sign in and create an account | Week 04 | ✅ Login/Signup agreed |
-| Logout | Button in the Header that signs out and returns to `/` | Week 04 | ✅ Logout agreed |
-| `/dashboard` | Protected home: the user's apartments and a summary | Week 04 (empty shell) | ✅ Dashboard agreed |
-| `/apartments`, `/apartments/new`, `/apartments/[id]`, `/apartments/[id]/edit` | Apartment (rental) create, read, update, delete | Week 05 | ✅ Rentals agreed |
-| `/apartments/[id]/condition`, `/condition/[reportId]` | Move-in and move-out condition logs with photos | Week 05 | 💡 |
-| `/apartments/[id]/maintenance`, `/apartments/[id]/maintenance/new` | Maintenance expense ledger and add expense | Week 05 | ✅ Maintenance agreed |
-| `/account` | View, update or delete profile | Week 05 | 💡 |
-| `/admin` | Admin view | Phase 2 (optional) | 💡 Spec currently scopes the MVP to single renters |
+| `/` | Landing page | Week 04 | Proposed |
+| `/login`, `/signup` | Sign in and create an account | Week 04 | Agreed |
+| Logout | Button in the Header that signs out and returns to `/` | Week 04 | Agreed |
+| `/dashboard` | Protected home: the user's apartments and a summary | Week 04 (empty shell) | Agreed |
+| `/apartments`, `/apartments/new`, `/apartments/[id]`, `/apartments/[id]/edit` | Apartment (rental) create, read, update, delete | Week 05 | Agreed |
+| `/apartments/[id]/condition`, `/condition/[reportId]` | Move-in and move-out condition logs with photos | Week 05 | Proposed |
+| `/apartments/[id]/maintenance`, `/apartments/[id]/maintenance/new` | Maintenance expense ledger and add expense | Week 05 | Agreed |
+| `/account` | View, update or delete profile | Week 05 | Proposed |
+| `/admin` | Admin view | Phase 2 (optional) | Proposed; the spec currently scopes the MVP to single renters |
 
-## 3. Reusable components 💡
+## 3. Reusable components (proposed)
 
-**✅ Agreed as essential:** `Header`, `Footer`.
-**💡 Proposed from the spec:** `NavLinks`, `AuthForm` (shared by login and signup), `ApartmentCard`, `ConditionLogCard`, `ExpenseTable`, `CurrencyTotals`, `EmptyState`, `ConfirmDeleteDialog` (spec FR-014), `FormField` (label + error message), `Button`.
+**Agreed as essential:** `Header`, `Footer`.
+**Proposed from the spec:** `NavLinks`, `AuthForm` (shared by login and signup), `ApartmentCard`, `ConditionLogCard`, `ExpenseTable`, `CurrencyTotals`, `EmptyState`, `ConfirmDeleteDialog` (spec FR-014), `FormField` (label + error message), `Button`.
 
 ```mermaid
 flowchart TD
@@ -69,7 +69,7 @@ flowchart TD
 
 > **Owner: Mackison** (entities, relationships and final fields). The fields below are input for him to adjust.
 
-**Entities:** ✅ User, Apartment, Expense · 💡 ConditionReport (move-in and move-out). Photos and receipts are stored as lists of file URLs inside ConditionReport and Expense, which keeps us at **4 entities**.
+**Entities:** User, Apartment and Expense are agreed; ConditionReport (move-in and move-out) is proposed. Photos and receipts are stored as lists of file URLs inside ConditionReport and Expense, which keeps us at **4 entities**.
 
 ```mermaid
 erDiagram
@@ -92,13 +92,13 @@ erDiagram
 
 ## 5. Design system
 
-> **Owner: Elizabeth.** ✅ **Agreed as final.** The team has adopted Elizabeth's design document (shared in the Teams channel) as our design system: colour palette, typography, layout and spacing, and component styles.
+> **Owner: Elizabeth.** **Agreed as final.** The team has adopted Elizabeth's design document (shared in the Teams channel) as our design system: colour palette, typography, layout and spacing, and component styles.
 
 - **Typography:** Fraunces for headings, Inter for body text.
 - **Source of truth:** Elizabeth's design document. She will add the design tokens to `RentLog/app/globals.css` (issue #5) and can expand this section with the details.
 - Everyone builds to these tokens rather than choosing their own colours, fonts or spacing.
 
-## 6. Proposed issues and ownership 💡
+## 6. Proposed issues and ownership
 
 | # | Issue | Type | Suggested owner | Milestone |
 | --- | --- | --- | --- | --- |
@@ -115,14 +115,14 @@ erDiagram
 
 **Existing board items:** fold *Delete / Update / View account details* into issue 2 or `/account`. *Payment* isn't in the spec, since RentLog tracks expenses rather than taking payments, so close or rename it. Clarify what *Deposits* covers.
 
-## 7. Dependencies 💡
+## 7. Dependencies (proposed)
 
 1. **Shared types (#7) and the database connection (#1) come first.** Everything else imports them.
 2. **The User model and auth (#2)** come next. The login, signup, logout and dashboard pages (#3, #4, #6) need it.
 3. **Design tokens (#5)** have no dependencies and can start on day one.
 4. **All Week 05 models (#8–#10)** need the database connection and the user id (`ownerId`).
 
-## 8. Team workflow 💡
+## 8. Team workflow (proposed)
 
 - **Branches:** one per issue, named `feature/<short-name>` (for example `feature/login-page`). No direct pushes to `main`.
 - **Pull requests:** at least one teammate reviews before merging, within 24 hours. Tag the reviewer in Teams.
