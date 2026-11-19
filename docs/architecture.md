@@ -26,17 +26,17 @@ This document complements [`spec.md`](../spec.md) and feeds [`.github/copilot-in
 | `/` | Landing page | Week 04 | Proposed |
 | `/login`, `/signup` | Sign in and create an account | Week 04 | Agreed |
 | Logout | Button in the Header that signs out and returns to `/` | Week 04 | Agreed |
-| `/dashboard` | Protected home: the user's apartments and a summary | Week 04 (empty shell) | Agreed |
-| `/apartments`, `/apartments/new`, `/apartments/[id]`, `/apartments/[id]/edit` | Apartment (rental) create, read, update, delete | Week 05 | Agreed |
-| `/apartments/[id]/condition`, `/condition/[reportId]` | Move-in and move-out condition logs with photos | Week 05 | Proposed |
-| `/apartments/[id]/maintenance`, `/apartments/[id]/maintenance/new` | Maintenance expense ledger and add expense | Week 05 | Agreed |
+| `/dashboard` | Protected home: the user's properties and a summary | Week 04 (empty shell) | Agreed |
+| `/properties`, `/properties/new`, `/properties/[id]`, `/properties/[id]/edit` | Property (rental) create, read, update, delete. The `/properties` list page and `/api/properties` were started in PR #12. | Week 04–05 | Agreed |
+| `/properties/[id]/condition`, `/condition/[reportId]` | Move-in and move-out condition logs with photos | Week 05 | Proposed |
+| `/properties/[id]/maintenance`, `/properties/[id]/maintenance/new` | Maintenance expense ledger and add expense | Week 05 | Agreed |
 | `/account` | View, update or delete profile | Week 05 | Proposed |
 | `/admin` | Admin view | Phase 2 (optional) | Proposed; the spec currently scopes the MVP to single renters |
 
 ## 3. Reusable components (proposed)
 
 **Agreed as essential:** `Header`, `Footer`.
-**Proposed from the spec:** `NavLinks`, `AuthForm` (shared by login and signup), `ApartmentCard`, `ConditionLogCard`, `ExpenseTable`, `CurrencyTotals`, `EmptyState`, `ConfirmDeleteDialog` (spec FR-014), `FormField` (label + error message), `Button`.
+**Proposed from the spec:** `NavLinks`, `AuthForm` (shared by login and signup), `PropertyCard` (added in PR #12), `ConditionLogCard`, `ExpenseTable`, `CurrencyTotals`, `EmptyState`, `ConfirmDeleteDialog` (spec FR-014), `FormField` (label + error message), `Button`.
 
 ```mermaid
 flowchart TD
@@ -52,15 +52,15 @@ flowchart TD
   AuthForm --> Button
 
   Page --> Dashboard["/dashboard"]
-  Dashboard --> ApartmentCard
+  Dashboard --> PropertyCard
   Dashboard --> EmptyState
 
-  Page --> Apartment["/apartments/[id]"]
-  Apartment --> ConditionLogCard
-  Apartment --> CurrencyTotals
-  Apartment --> ConfirmDeleteDialog
+  Page --> Property["/properties/[id]"]
+  Property --> ConditionLogCard
+  Property --> CurrencyTotals
+  Property --> ConfirmDeleteDialog
 
-  Page --> Maintenance["/apartments/[id]/maintenance"]
+  Page --> Maintenance["/properties/[id]/maintenance"]
   Maintenance --> ExpenseTable
   Maintenance --> CurrencyTotals
 ```
@@ -69,26 +69,26 @@ flowchart TD
 
 > **Owner: Mackison** (entities, relationships and final fields). The fields below are input for him to adjust.
 
-**Entities:** User, Apartment and Expense are agreed; ConditionReport (move-in and move-out) is proposed. Photos and receipts are stored as lists of file URLs inside ConditionReport and Expense, which keeps us at **4 entities**.
+**Entities:** User, Property (a rental) and Expense are agreed; ConditionReport (move-in and move-out) is proposed. Photos and receipts are stored as lists of file URLs inside ConditionReport and Expense, which keeps us at **4 entities**.
 
 ```mermaid
 erDiagram
-  USER ||--o{ APARTMENT : owns
-  APARTMENT ||--o{ CONDITION_REPORT : has
-  APARTMENT ||--o{ EXPENSE : has
+  USER ||--o{ PROPERTY : owns
+  PROPERTY ||--o{ CONDITION_REPORT : has
+  PROPERTY ||--o{ EXPENSE : has
 ```
 
 | Entity | Proposed key fields |
 | --- | --- |
 | **User** | `name`, `email`, password hash or auth-provider id, `role` (`user` \| `admin`), `createdAt` |
-| **Apartment** | `ownerId` → User, `nickname`, `address`, `landlordName`, `landlordEmail`, `leaseStart`, `leaseEnd`, `depositAmountCents`, `currency` |
-| **ConditionReport** | `apartmentId` → Apartment, `ownerId`, `type` (`move-in` \| `move-out`), `date`, `observations[]` → `{ room, condition, notes, photoUrls[] }` |
-| **Expense** | `apartmentId` → Apartment, `ownerId`, `date`, `description`, `category`, `amountCents` (positive integer), `currency`, `receiptUrls[]`, `reimbursementStatus` |
+| **Property** | `userId` → User, `name`, `address`, `city`, `region`, `postalCode`, `landlordName`, `monthlyRentCents`, `currency`, `leaseStart`, `leaseEnd` (as built in `models/Property.ts`, PR #12) |
+| **ConditionReport** | `propertyId` → Property, `userId`, `type` (`move-in` \| `move-out`), `date`, `observations[]` → `{ room, condition, notes, photoUrls[] }` |
+| **Expense** | `propertyId` → Property, `userId`, `date`, `description`, `category`, `amountCents` (positive integer), `currency`, `receiptUrls[]`, `reimbursementStatus` |
 
 **Why these choices:**
 - **Embedded observations.** A report has a small, fixed set of rooms that are always read together, so they live inside the report document.
 - **Money as integer cents.** Storing `amountCents` avoids floating-point rounding errors, and totals are kept separate per `currency` (spec FR-009).
-- **`ownerId` on every document.** Every query can filter by the signed-in user, so nobody can read another renter's records (spec FR-002).
+- **`userId` on every document.** Every query can filter by the signed-in user, so nobody can read another renter's records (spec FR-002).
 
 ## 5. Design system
 
@@ -109,7 +109,7 @@ erDiagram
 | 5 | Design tokens in `globals.css` and base UI components | frontend | Elizabeth | Week 04 |
 | 6 | Protected dashboard page with empty state | frontend | Britney | Week 04 |
 | 7 | Shared TypeScript types in `types/` | backend | Mackison + all | Week 04 |
-| 8 | Apartment model and CRUD API and pages | full-stack | Elizabeth | Week 05 |
+| 8 | Property model, API and pages (list page and read API done in PR #12) | full-stack | Elizabeth | Week 04–05 |
 | 9 | ConditionReport model and condition log pages | full-stack | Thubelihle | Week 05 |
 | 10 | Expense model, totals by currency, maintenance ledger | full-stack | Britney | Week 05 |
 
@@ -120,7 +120,7 @@ erDiagram
 1. **Shared types (#7) and the database connection (#1) come first.** Everything else imports them.
 2. **The User model and auth (#2)** come next. The login, signup, logout and dashboard pages (#3, #4, #6) need it.
 3. **Design tokens (#5)** have no dependencies and can start on day one.
-4. **All Week 05 models (#8–#10)** need the database connection and the user id (`ownerId`).
+4. **All Week 05 models (#8–#10)** need the database connection and the user id (`userId`).
 
 ## 8. Team workflow (proposed)
 
