@@ -3,6 +3,7 @@ import { connection } from "next/server";
 import PropertyCard from "@/components/PropertyCard";
 import { getCurrentUserId } from "@/lib/current-user";
 import { getProperties } from "@/lib/properties";
+import PropertyListSkeleton from "@/components/PropertyListSkeleton";
 
 async function PropertyList() {
     await connection();
@@ -37,7 +38,7 @@ export default function PropertiesPage() {
         <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
             <h1 className="text-3xl font-bold md:text-4xl">My Properties</h1>
 
-            <Suspense fallback={<p className="mt-8 text-stone-600">Loading properties…</p>}>
+            <Suspense fallback={<PropertyListSkeleton />}>
                 <PropertyList />
             </Suspense>
         </main>
