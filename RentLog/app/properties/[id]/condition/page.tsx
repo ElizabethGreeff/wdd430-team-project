@@ -25,10 +25,20 @@ async function ConditionLogs({ params }: { params: Params }) {
 
     return (
         <>
-            <h1 className="text-3xl font-bold md:text-4xl">Condition logs</h1>
-            <p className="mt-2 text-stone-600">
-                {property.name} · {property.address}
-            </p>
+            <div className="flex flex-wrap items-end justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold md:text-4xl">Condition logs</h1>
+                    <p className="mt-2 text-stone-600">
+                        {property.name} · {property.address}
+                    </p>
+                </div>
+                <Link
+                    href={`/properties/${id}/condition/new`}
+                    className="rounded-lg bg-teal-700 px-4 py-2 font-semibold text-white hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                >
+                    Add condition report
+                </Link>
+            </div>
 
             {reports.length === 0 ? (
                 <p className="mt-8 rounded-lg border border-stone-200 bg-white p-8 text-center text-stone-600">

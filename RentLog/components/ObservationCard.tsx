@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ConditionBadge from "@/components/ConditionBadge";
 import type { ObservationDTO } from "@/lib/types";
 
@@ -22,11 +23,31 @@ export default function ObservationCard({ observation }: ObservationCardProps) {
                 <p className="text-sm text-stone-600">No notes.</p>
             )}
 
-            <p className="mt-auto text-xs text-stone-600">
-                {photoCount === 0
-                    ? "No photos"
-                    : `${photoCount} ${photoCount === 1 ? "photo" : "photos"}`}
-            </p>
+            {photoCount > 0 ? (
+                <ul className="mt-auto flex flex-wrap gap-2 pt-1" aria-label={`${observation.room} photos`}>
+                    {observation.photoUrls.map((url, index) => (
+                        <li key={url}>
+                            {/* Opens the full-size photo in a new tab. */}
+                            <a
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                            >
+                                <Image
+                                    src={url}
+                                    alt={`${observation.room}, photo ${index + 1} of ${photoCount} (opens full size)`}
+                                    width={72}
+                                    height={72}
+                                    className="h-18 w-18 rounded-md border border-stone-200 object-cover"
+                                />
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p className="mt-auto text-xs text-stone-600">No photos</p>
+            )}
         </li>
     );
 }
