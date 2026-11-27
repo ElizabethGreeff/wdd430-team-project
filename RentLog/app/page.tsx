@@ -1,69 +1,54 @@
-import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="space-y-8">
+      <section className="rounded-xl border border-stone-200 bg-white p-8 sm:p-12 shadow-sm">
+        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-stone-900">
+          Document your rental&apos;s condition and track maintenance expenses.
+        </h1>
+        <p className="mt-4 max-w-2xl text-base text-stone-600 leading-relaxed">
+          RentLog keeps your move-in and move-out evidence, room observations, and
+          out-of-pocket maintenance receipts organized in one secure place; ready to
+          review and send to your landlord when requesting a deposit return or reimbursement.
+        </p>
+
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Link
+            href="/properties"
+            className="rounded-lg bg-stone-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-stone-800 transition-colors"
+          >
+            View Properties
+          </Link>
+          <Link
+            href="/expenses"
+            className="rounded-lg border border-stone-300 bg-white px-5 py-2.5 text-sm font-medium text-stone-800 hover:bg-stone-50 transition-colors"
+          >
+            Track Expenses
+          </Link>
+        </div>
+      </section>
+
+      <section className="grid gap-6 sm:grid-cols-3">
+        <div className="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-stone-900">1. Condition Reports</h2>
+          <p className="mt-2 text-sm text-stone-600">
+            Log dated move-in and move-out observations room by room with supporting photos.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-stone-900">2. Expense Ledger</h2>
+          <p className="mt-2 text-sm text-stone-600">
+            Record out-of-pocket repair costs and attach receipts to track reimbursement totals.
+          </p>
         </div>
-      </main>
+        <div className="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-stone-900">3. Evidence Packages</h2>
+          <p className="mt-2 text-sm text-stone-600">
+            Compile selected condition records and receipts into a clear package for your landlord.
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
