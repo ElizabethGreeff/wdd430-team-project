@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCurrentUserId } from "@/lib/current-user";
+import { getApiUserId } from "@/lib/current-user";
 import { getPropertyById } from "@/lib/properties";
 import { getConditionReports } from "@/lib/condition-reports";
 import type { ApiError, ConditionReportDTO } from "@/lib/types";
@@ -21,7 +21,10 @@ export async function GET(
     }
 
     try {
-        const userId = await getCurrentUserId();
+        const userId = await getApiUserId();
+        if (!userId) {
+            return NextResponse.json({ message: "Sign in to continue." }, { status: 401 });
+        }
 
         // Same 404 whether the property doesn't exist or belongs to someone else.
         const property = await getPropertyById(userId, id);

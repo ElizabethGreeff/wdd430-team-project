@@ -1,6 +1,6 @@
 
 import { NextResponse } from "next/server";
-import { getCurrentUserId } from "@/lib/current-user";
+import { getApiUserId } from "@/lib/current-user";
 import { createProperty, getProperties } from "@/lib/properties";
 import { validatePropertyInput } from "@/lib/property-validation";
 import type { ApiError, PropertyDTO } from "@/lib/types";
@@ -10,7 +10,10 @@ export async function GET(
 ): Promise<NextResponse<PropertyDTO[] | ApiError>> {
     try {
         const city = new URL(request.url).searchParams.get("city")?.trim();
-        const userId = await getCurrentUserId();
+        const userId = await getApiUserId();
+        if (!userId) {
+            return NextResponse.json({ message: "Sign in to continue." }, { status: 401 });
+        }
         const properties = await getProperties(userId, city);
 
         return NextResponse.json(properties, { status: 200 });
@@ -27,6 +30,11 @@ export async function POST(
     request: Request
 ): Promise<NextResponse<PropertyDTO | ApiError>> {
     try {
+        const userId = await getApiUserId();
+        if (!userId) {
+            return NextResponse.json({ message: "Sign in to continue." }, { status: 401 });
+        }
+
         let body: unknown;
 
         try {
@@ -47,7 +55,6 @@ export async function POST(
             );
         }
 
-        const userId = await getCurrentUserId();
         const property = await createProperty(userId, validation.data);
 
         return NextResponse.json(property, { status: 201 });
