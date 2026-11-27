@@ -1,3 +1,5 @@
+
+import Link from "next/link";
 import { Suspense } from "react";
 import { connection } from "next/server";
 import PropertyCard from "@/components/PropertyCard";
@@ -35,7 +37,18 @@ async function PropertyList() {
 export default function PropertiesPage() {
     return (
         <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-            <h1 className="text-3xl font-bold md:text-4xl">My Properties</h1>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+                <h1 className="text-3xl font-bold md:text-4xl">
+                    My Properties
+                </h1>
+
+                <Link
+                    href="/properties/new"
+                    className="rounded-lg bg-stone-900 px-5 py-3 font-medium text-white hover:bg-stone-700"
+                >
+                    + Add property
+                </Link>
+            </div>
 
             <Suspense fallback={<p className="mt-8 text-stone-600">Loading properties…</p>}>
                 <PropertyList />
