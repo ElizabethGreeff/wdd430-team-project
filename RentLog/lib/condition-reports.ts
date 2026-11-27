@@ -48,3 +48,32 @@ export async function getConditionReports(
 
     return reports.map(toConditionReportDTO);
 }
+
+/** What a new report contains (the user and property come from the caller). */
+export interface NewConditionReport {
+    type: ConditionReportDoc["type"];
+    reportDate: Date;
+    observations: ObservationDoc[];
+}
+
+/**
+ * Saves a new report for one of the user's properties and returns its id.
+ * Callers must check that the property belongs to the user first (see getPropertyById).
+ */
+export async function createConditionReport(
+    userId: string,
+    propertyId: string,
+    report: NewConditionReport
+): Promise<string> {
+    await connectToDatabase();
+
+    const created = await ConditionReport.create({
+        userId,
+        propertyId,
+        type: report.type,
+        reportDate: report.reportDate,
+        observations: report.observations,
+    });
+
+    return created._id.toString();
+}
