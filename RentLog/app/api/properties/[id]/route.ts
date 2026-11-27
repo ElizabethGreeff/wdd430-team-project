@@ -1,6 +1,6 @@
 
 import { NextResponse } from "next/server";
-import { getCurrentUserId } from "@/lib/current-user";
+import { getApiUserId } from "@/lib/current-user";
 import {
     deleteProperty,
     getPropertyById,
@@ -27,7 +27,10 @@ export async function GET(
     }
 
     try {
-        const userId = await getCurrentUserId();
+        const userId = await getApiUserId();
+        if (!userId) {
+            return NextResponse.json({ message: "Sign in to continue." }, { status: 401 });
+        }
         const property = await getPropertyById(userId, id);
 
         if (!property) {
@@ -61,6 +64,11 @@ export async function PUT(
     }
 
     try {
+        const userId = await getApiUserId();
+        if (!userId) {
+            return NextResponse.json({ message: "Sign in to continue." }, { status: 401 });
+        }
+
         let body: unknown;
 
         try {
@@ -81,7 +89,6 @@ export async function PUT(
             );
         }
 
-        const userId = await getCurrentUserId();
         const property = await updateProperty(userId, id, validation.data);
 
         if (!property) {
@@ -115,7 +122,10 @@ export async function DELETE(
     }
 
     try {
-        const userId = await getCurrentUserId();
+        const userId = await getApiUserId();
+        if (!userId) {
+            return NextResponse.json({ message: "Sign in to continue." }, { status: 401 });
+        }
         const result = await deleteProperty(userId, id);
 
         if (!result.deleted) {
